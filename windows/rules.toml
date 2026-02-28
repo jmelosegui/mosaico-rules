@@ -45,9 +45,46 @@ manage = false
 match_title = "GlobalProtect"
 manage = false
 
+# -- Common popups / dialogs --
+
+# Standard Win32 dialog boxes (file open, print, color picker, etc.).
+[[rule]]
+match_class = "#32770"
+manage = false
+
+# Windows notification center / action center overlay.
+[[rule]]
+match_class = "Windows.UI.Input.InputSite.WindowClass"
+manage = false
+
+# Task Manager when opened as a compact overlay.
+[[rule]]
+match_class = "TaskManagerWindow"
+manage = false
+
+# Snipping Tool / Snip & Sketch overlay.
+[[rule]]
+match_title = "Snipping Tool"
+manage = false
+
+# Windows credential / authentication prompts.
+[[rule]]
+match_class = "Credential Dialog Xaml Host"
+manage = false
+
 # -- System utilities --
 
 # Tablet/pen input helper — invisible window, should not be tiled.
 [[rule]]
 match_class = "RealTimeStylus"
+manage = false
+
+# System tray window — always hidden behind the taskbar.
+[[rule]]
+match_class = "Shell_TrayWnd"
+manage = false
+
+# Secondary taskbar on multi-monitor setups.
+[[rule]]
+match_class = "Shell_SecondaryTrayWnd"
 manage = false
