@@ -1,0 +1,53 @@
+# Community-maintained default rules for Mosaico (Windows)
+#
+# These rules are downloaded automatically when the daemon starts.
+# To override a rule, add an entry in ~/.config/mosaico/user-rules.toml
+# rather than editing this file (it will be overwritten on next startup).
+#
+# To contribute: https://github.com/jmelosegui/mosaico-rules
+
+# -- UWP / System --
+
+# UWP apps (Settings, Store, etc.) enforce their own size constraints
+# and don't behave well when tiled.
+[[rule]]
+match_class = "ApplicationFrameWindow"
+manage = false
+
+# Core UWP window class used by some system dialogs.
+[[rule]]
+match_class = "Windows.UI.Core.CoreWindow"
+manage = false
+
+# -- GPG / SSH --
+
+# GPG passphrase prompt — small modal dialog, should not be tiled.
+[[rule]]
+match_title = "pinentry"
+manage = false
+
+# -- GPU overlays --
+
+# NVIDIA GeForce Experience overlay.
+[[rule]]
+match_class = "NVIDIA GeForce Overlay"
+manage = false
+
+# AMD Radeon Software overlay.
+[[rule]]
+match_title = "AMD Software"
+manage = false
+
+# -- VPN clients --
+
+# GlobalProtect VPN client — standard dialog window, should not be tiled.
+[[rule]]
+match_title = "GlobalProtect"
+manage = false
+
+# -- System utilities --
+
+# Tablet/pen input helper — invisible window, should not be tiled.
+[[rule]]
+match_class = "RealTimeStylus"
+manage = false
