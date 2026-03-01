@@ -8,10 +8,11 @@
 
 # -- UWP / System --
 
-# UWP apps (Settings, Store, etc.) enforce their own size constraints
-# and don't behave well when tiled.
+# UWP ghost frames — invisible companion windows with no title.
+# UWP apps with a title (e.g. Settings, Store) are managed normally.
 [[rule]]
 match_class = "ApplicationFrameWindow"
+match_title = ""
 manage = false
 
 # Core UWP window class used by some system dialogs.
