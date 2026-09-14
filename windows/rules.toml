@@ -39,6 +39,14 @@ manage = false
 match_title = "AMD Software"
 manage = false
 
+# -- Browsers --
+
+# Arc drag placeholder, a transparent window shown while dragging a tab.
+[[rule]]
+match_class = "WinUIDesktopWin32WindowClass"
+match_title = "Drag Placeholder Window"
+manage = false
+
 # -- VPN clients --
 
 # GlobalProtect VPN client — standard dialog window, should not be tiled.
