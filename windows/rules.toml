@@ -47,6 +47,15 @@ match_class = "WinUIDesktopWin32WindowClass"
 match_title = "Drag Placeholder Window"
 manage = false
 
+# -- Image editors --
+
+# PhotoCraft draws its own title bar, so the window has no caption and
+# is skipped unless a rule opts it in. Matched by executable because its
+# class is the generic "Window Class" shared by other apps.
+[[rule]]
+match_path = "photocraft.exe"
+manage = true
+
 # -- VPN clients --
 
 # GlobalProtect VPN client — standard dialog window, should not be tiled.
