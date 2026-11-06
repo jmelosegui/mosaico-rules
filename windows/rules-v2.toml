@@ -1,0 +1,161 @@
+# Community-maintained default rules for Mosaico (Windows)
+#
+# These rules are downloaded automatically when the daemon starts.
+# To override a rule, add an entry in ~/.config/mosaico/user-rules.toml
+# rather than editing this file (it will be overwritten on next startup).
+#
+# Each rule says what Mosaico does with the windows it matches:
+#   action = "tile"    managed and tiled into the layout
+#   action = "float"   managed, but kept floating above the tiles
+#   action = "ignore"  never managed
+#
+# This file is read by Mosaico versions with floating windows. Older
+# versions read rules.toml, which keeps their format and is frozen.
+#
+# To contribute: https://github.com/jmelosegui/mosaico-rules
+
+# -- UWP / System --
+
+# UWP ghost frames — invisible companion windows with no title.
+# UWP apps with a title (e.g. Settings, Store) are managed normally.
+[[rule]]
+match_class = "ApplicationFrameWindow"
+match_title = ""
+action = "ignore"
+
+# Core UWP window class used by some system dialogs.
+[[rule]]
+match_class = "Windows.UI.Core.CoreWindow"
+action = "ignore"
+
+# -- GPG / SSH --
+
+# GPG passphrase prompt — small modal dialog, floats above the tiles.
+[[rule]]
+match_title = "pinentry"
+action = "float"
+
+# -- GPU overlays --
+
+# NVIDIA GeForce Experience overlay.
+[[rule]]
+match_class = "NVIDIA GeForce Overlay"
+action = "ignore"
+
+# AMD Radeon Software overlay.
+[[rule]]
+match_title = "AMD Software"
+action = "ignore"
+
+# -- Browsers --
+
+# Arc drag placeholder, a transparent window shown while dragging a tab.
+[[rule]]
+match_class = "WinUIDesktopWin32WindowClass"
+match_title = "Drag Placeholder Window"
+action = "ignore"
+
+# -- Image editors --
+
+# PhotoCraft draws its own title bar, so the window has no caption and
+# is skipped unless a rule opts it in. Matched by executable because its
+# class is the generic "Window Class" shared by other apps.
+[[rule]]
+match_path = "photocraft.exe"
+action = "tile"
+
+# -- Installers --
+#
+# Setup wizards have a fixed size and are only open for a moment, so they
+# float above the tiles instead of resizing the layout. NSIS and
+# InstallShield setups use standard dialogs, which float with the
+# "#32770" rule below.
+
+# Windows Installer (.msi) dialogs and progress windows.
+[[rule]]
+match_class = "MsiDialogCloseClass"
+action = "float"
+
+# Windows Installer dialogs without a close button.
+[[rule]]
+match_class = "MsiDialogNoCloseClass"
+action = "float"
+
+# Inno Setup's hidden application window (VS Code, Cursor, Git and many
+# other setups). It has a caption but no size, so tiling it left an empty
+# tile beside the wizard. The same hidden window belongs to other Delphi
+# programs, whose forms Mosaico never manages through it.
+[[rule]]
+match_class = "TApplication"
+action = "ignore"
+
+# Inno Setup wizard. It is usually owned by the window above, which keeps
+# it out of the layout; setups that show it on its own float it.
+[[rule]]
+match_class = "TWizardForm"
+action = "float"
+
+# WiX bundle installers (setup.exe built with the WiX standard bootstrapper).
+[[rule]]
+match_class = "WixStdBA"
+action = "float"
+
+# App Installer, which installs .msix and .appinstaller packages. It draws
+# its own title bar, so the rule also opts it in.
+[[rule]]
+match_path = "AppInstaller.exe"
+action = "float"
+
+# -- VPN clients --
+
+# GlobalProtect VPN client — a panel that opens from the tray icon.
+[[rule]]
+match_title = "GlobalProtect"
+action = "ignore"
+
+# -- Common popups / dialogs --
+
+# Standard Win32 dialog boxes (file open, print, color picker, message
+# boxes, NSIS and InstallShield setups). They float above the tiles and
+# move with their workspace.
+[[rule]]
+match_class = "#32770"
+action = "float"
+
+# Windows notification center / action center overlay.
+[[rule]]
+match_class = "Windows.UI.Input.InputSite.WindowClass"
+action = "ignore"
+
+# Task Manager. It often runs as administrator, and Mosaico cannot move
+# windows of elevated programs, so it is left alone.
+[[rule]]
+match_class = "TaskManagerWindow"
+action = "ignore"
+
+# Snipping Tool / Snip & Sketch overlay.
+[[rule]]
+match_title = "Snipping Tool"
+action = "ignore"
+
+# Windows credential / authentication prompts.
+[[rule]]
+match_class = "Credential Dialog Xaml Host"
+action = "ignore"
+
+# -- System utilities --
+
+# Tablet/pen input helper — invisible window, should not be tiled.
+[[rule]]
+match_class = "RealTimeStylus"
+action = "ignore"
+
+# System tray window — always hidden behind the taskbar.
+[[rule]]
+match_class = "Shell_TrayWnd"
+action = "ignore"
+
+# Secondary taskbar on multi-monitor setups.
+[[rule]]
+match_class = "Shell_SecondaryTrayWnd"
+action = "ignore"

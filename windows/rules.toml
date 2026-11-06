@@ -1,10 +1,23 @@
 # Community-maintained default rules for Mosaico (Windows)
 #
+# DEPRECATED: this file is frozen for Mosaico versions before floating
+# windows and will be removed in a future release. Newer versions read
+# rules-v2.toml, which can float dialogs and installers above the tiles.
+# Update Mosaico (`mosaico update`) to get new community rules.
+#
 # These rules are downloaded automatically when the daemon starts.
 # To override a rule, add an entry in ~/.config/mosaico/user-rules.toml
 # rather than editing this file (it will be overwritten on next startup).
 #
 # To contribute: https://github.com/jmelosegui/mosaico-rules
+
+# -- Notice --
+
+# Never matches a window. Older versions show it in the Rules page of the
+# settings app, which is the only place they show community rules.
+[[rule]]
+match_class = "These community rules are no longer updated. Run mosaico update to get the new ones."
+manage = false
 
 # -- UWP / System --
 

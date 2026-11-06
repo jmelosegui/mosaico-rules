@@ -24,34 +24,38 @@ to target.
 ## Writing a Rule
 
 Add a `[[rule]]` entry to the appropriate OS file (e.g.
-`windows/rules.toml`). Each rule needs:
+`windows/rules-v2.toml`). Do not add rules to `windows/rules.toml`: it is
+frozen for Mosaico versions before floating windows and will be removed in
+a future release. Each rule needs:
 
 | Field | Type | Required | Description |
 |-------|------|----------|-------------|
 | `match_class` | string | No | Exact class name match (case-insensitive) |
 | `match_title` | string | No | Substring title match (case-insensitive) |
 | `match_path` | string | No | Executable path match (case-insensitive, ends with, e.g. `"app.exe"`) |
-| `manage` | bool | Yes | `false` to exclude, `true` to force-tile |
+| `action` | string | Yes | `"tile"`, `"float"` (managed, above the tiles) or `"ignore"` |
 
 At least one of `match_class`, `match_title`, or `match_path` is required.
 If more than one is specified, all must match (AND logic).
 
 `match_path` compares against the end of the program's full path, starting
 at a folder boundary, so `"app.exe"` matches `C:\Vendor\app.exe` but not
-`C:\Vendor\myapp.exe`. Older Mosaico versions ignore this field, so a rule
-that uses only `match_path` has no effect on them.
+`C:\Vendor\myapp.exe`.
 
-Apps that draw their own title bar are not tiled unless a rule opts them in
-with `manage = true`. Use `match_path` for these when the app's window class
+Use `action`, not the older `manage = true/false`: Mosaico still reads
+`manage`, but it is deprecated and a future version will stop reading it.
+
+Apps that draw their own title bar are not managed unless a rule opts them in
+with `action = "tile"` or `action = "float"`. Use `match_path` for these when the app's window class
 is generic.
 
 Include a short comment above the rule explaining what it does:
 
 ```toml
-# Snipping Tool overlay — should float, not tile.
+# Inno Setup wizard — floats above the tiles while it is open.
 [[rule]]
-match_title = "Snipping Tool"
-manage = false
+match_class = "TWizardForm"
+action = "float"
 ```
 
 ## Testing Locally
@@ -68,8 +72,8 @@ Before submitting, test your rule by adding it to your local
 
 1. Fork this repository
 2. Add your rule to the correct OS file under the appropriate section
-3. Keep rules grouped by category (UWP/System, GPU overlays, VPN clients,
-   etc.) — add a new section header if needed
+3. Keep rules grouped by category (UWP/System, GPU overlays, Installers,
+   VPN clients, etc.) — add a new section header if needed
 4. Open a pull request with a short description of what the rule does
 
 ## Guidelines
